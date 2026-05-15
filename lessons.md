@@ -41,12 +41,12 @@ Tokenization
 LLM intelligence is uneven -> "Swiss Cheese Intelligence"
 * can do garduate level problems & summarize complex reaserach, but failes at simpler task & logic edge cases
 
-Answer Start-Question:
+**Start-Question:**
 
 - Jagged Edges / Swiss Cheese Capability Model 
 - whether "reasoning" in LLMs is a just token-space search over patterns or somthing deeper emerges when thinking is involved 
 
-### Jin et al., 2024 GeneGPT: Argmenting Large Language Models with Domain Tolls for Improved Access to Biomedical Information - *what claim in this paper would I most want to verify on my own data?*
+#### Jin et al., 2024 GeneGPT: Argmenting Large Language Models with Domain Tolls for Improved Access to Biomedical Information - *what claim in this paper would I most want to verify on my own data?*
 
 GeneGPT - teaches models to use real world tools like NCBI Web API
 
@@ -75,5 +75,51 @@ Most coomon errors:
 * E3: Failure to encode the answer (e.g. SNP gene function; ~29 cases)
 * E4: Unanswerable with NCBI databases (e.g. Simple tasks of Location and Alias 17/50 questions Error)
 
+**Start-Question:**
+* Generalization of the Long Chains of Thoughts
+  * techncally high sucess rate of longer chains of sub-questions & API calls
+  * at least 4 consecutive APIs
+  
+  * Test if a complex Genomic Workflow (Finding Genes + Function; possible alignemnet; KEGG-Workflow)
+  * and also if all biological questions work or if the model breaks/haluzination after second/third/forth call
 
-#### Reflection Excercise
+* Slim Prompts -> Cross-Task-Generalization
+  * two demonstrations -> silm versions performed better then the full version (documentation + demonstrations)
+  * strong cross-talk generalizability -> more useful then natural language documentation in cotext learning in models
+
+
+### Reflection Excercise
+
+**Hallucinated PMIDs and DOIs**
+  * pre-traing optimizes for surface form, not factual accuracy
+  * citation strings follws thiht pattern in training data -> model produces somthing that looks right, but fatasising the actual numbers
+  * Fix: Tool use & extrenal database queries (fuzzy weight-memory -> verified working memory)
+
+**Sequence Counting Fails due to Tokenization**
+  * chunks sequences into multicharacter tokens; no reliable positional correondence
+  * arithmetic over this tokens -> looking to a fixed computed budget
+  * Helping: Chain-of-thought prompting (more computational steps); but phython script could be better in general with this 
+
+**Confident-but-wrong taxonomy assignments**
+  * enough context so the model can sound credible, but training signal could be thin & patchy (e.g. Malagasy Ants Fauna)
+  * Problem here could be Swiss-Cheese-Model -> SFT could train the assistant to sound knowledgeable regardless of actual data coverage
+  * Usin LLM only as reasoing on reliable produced data;not let it trail of
+  
+**Own Project: Ant Morphology + Ecological Patterns // Procupine Taxonomy + Morphology**
+* Pipline prduces the data & numbers (e.g. R & Phython)
+* Model should reasons over them 
+* Could lead into the Swiss Cheese Problems
+  
+
+### Hands-On Task
+Vanilla Chatbot:
+
+
+Chatbot with Code Execution:
+
+
+#### What I'd want to test!
+
+
+
+## Week 2 - Agentic IDEs on bioinformatics tasks
