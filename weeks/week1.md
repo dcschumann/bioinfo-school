@@ -4,9 +4,10 @@
 **Live sessions (Europe/Prague).**
 
 - **Monday 25.5 · 09:00–10:00** — kick-off lesson (mandatory if you can make it; recording shared otherwise)
+- **Tuesday 26.5 · 11:00–14:00** — Stefan — *Domain Expertise: The Internal Validator of AI Quality* (2h lecture + 1h Q&A)
 - **Friday 29.5 · 12:00–12:30** — drop-in Q&A
 
-**Goal.** Build a working mental model of what LLMs are and aren't, so the agent's behavior in weeks 2–4 stops being magic. Get GitHub set up.
+**Goal.** Build a working mental model of what LLMs are and aren't, so the agent's behavior in weeks 2–4 stops being magic. Get GitHub and Slack set up; start [`lessons.md`](../lessons.md) (**From the materials** + **Surprises**).
 
 **Time budget.** ~7 hours.
 
@@ -30,22 +31,25 @@ Pick three things you've seen LLMs do badly (or three things you'd want them to 
 - Confused coordinate systems (1-based vs 0-based; we'll come back to this in week 2)
 - Confident-but-wrong taxonomy assignments
 
-Write it up; commit it as the first entry in your `lessons.md`.
+Write it up under **Week 1 → From the materials** in [`lessons.md`](../lessons.md). Use the mental model from Karpathy; personal chatbot examples are welcome but not required.
 
 ### Light hands-on (~1h)
 
 One small chatbot exercise. Take a real bio task — *"explain what this stretch of GTF means,"* or *"write Python to parse this FASTA header format."* Do it once with a vanilla chatbot. Do it again with a chatbot that has code execution (ChatGPT with the code-interpreter tool, Claude with analysis tool, Gemini with code execution — pick whichever you have access to). Note the gap.
+
+Log anything that surprised you under **Week 1 → Surprises** in [`lessons.md`](../lessons.md) — model name, your prompt, what it got wrong or oddly right.
 
 That gap is what week 2 is built on.
 
 ### Setup (~30 min)
 
 1. Create a [GitHub](https://github.com) account if you don't have one.
-2. Fork or clone the course starter repo.
-3. Add a `lessons.md` at the repo root. Drop in your reflection from above as the first entry.
-4. `git add . && git commit -m "week 1: lessons.md, first reflection" && git push`.
+2. Create a [Slack](https://slack.com/get-started) account if you don't have one, then join the cohort workspace (invite link in the kick-off email).
+3. Fork or clone this repo.
+4. Open [`lessons.md`](../lessons.md) and fill in **Week 1** (both subsections). See the template for what goes where.
+5. `git add . && git commit -m "week 1: lessons.md" && git push`.
 
-If any step here is unfamiliar, that's fine — week 2 has Git fundamentals built in. For now, getting the account and the first commit is the goal.
+If any Git step here is unfamiliar, that's fine — week 2 has Git fundamentals built in. For now: both accounts, Slack joined, first commit pushed.
 
 ---
 
@@ -67,11 +71,12 @@ If any step here is unfamiliar, that's fine — week 2 has Git fundamentals buil
 
 ## What "done" looks like
 
-- Karpathy's *Deep Dive* watched (with pauses and notes)
-- GeneGPT paper read
-- GitHub account created, starter repo cloned
-- `lessons.md` started, with your three-task reflection committed and pushed
-- Your one-sentence "what I'd want to test" notes accumulated while watching
+- Karpathy's *Deep Dive* watched (with pauses; notes under **From the materials**)
+- GeneGPT paper read (at least one note under **From the materials**)
+- GitHub account created; Slack account created and cohort workspace joined
+- This repo forked or cloned
+- `lessons.md` — **Week 1 → From the materials** (reflection + any video/paper notes) and **Surprises** (chatbot moments) — committed and pushed
+- Your one-sentence *"what I'd want to test"* notes from watching/reading (under **From the materials**)
 
 ---
 
@@ -81,3 +86,4 @@ If any step here is unfamiliar, that's fine — week 2 has Git fundamentals buil
 - Anything from GeneGPT you want to push back on
 - Your three reflection items, if you want feedback on whether the explanation holds up
 - A working GitHub repo URL (so we can sanity-check setup before week 2 hits)
+- You're on Slack and can post in the cohort channel if something breaks

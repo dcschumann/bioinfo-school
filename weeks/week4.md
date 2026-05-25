@@ -13,7 +13,7 @@
 
 ### Light reproducibility refresh (~1h)
 
-Go back to the Genomic Benchmarks repo from week 3. Add a proper `pyproject.toml` (we recommend [`uv`](https://docs.astral.sh/uv/)). Run on a fresh `uv venv`. Fix what breaks.
+Go back to the Genomic Benchmarks repo from week 3. Add a proper `pyproject.toml` (we recommend `[uv](https://docs.astral.sh/uv/)`). Run on a fresh `uv venv`. Fix what breaks.
 
 The *"fix what breaks"* **is** the lesson — agents leave hidden dependencies (an inline `pip install`, an implicit Colab-installed library), and reading the diff between *"what I wrote"* and *"what actually runs"* is the skill.
 
@@ -23,11 +23,13 @@ Mention Docker exists; we'll cover it in person. One paragraph of mental-model f
 
 This is the conceptual spine of the week. Walk through one bioinformatics example — *"count reads aligned to chr21 in this BAM"* — three ways:
 
-| Mode | What happens | Output | Cost |
-|---|---|---|---|
-| **1. Agent writes code that calls the tool.** | What weeks 2–3 did. Agent generates Python that calls `subprocess.run(["samtools", ...])` or hits a REST API. | Versioned, reusable code. | Silent flag mistakes; throwaway for one-off questions. |
-| **2. Agent executes commands directly.** | Antigravity agent mode, Claude Code, Cursor terminal. Agent literally runs `samtools view -c file.bam chr21` and reads stdout. | An answer (and a session log if you save it). | Side effects, *"rm -rf my data,"* no shareable artifact. |
-| **3. Agent calls structured tools (MCP / function calling).** | Tools wrapped as named, typed interfaces invoked via protocol. BioMCP, NCBI MCP, custom servers. | Structured, auditable, composable. | Somebody builds and maintains the wrapper. |
+
+| Mode                                                          | What happens                                                                                                                   | Output                                        | Cost                                                     |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- | -------------------------------------------------------- |
+| **1. Agent writes code that calls the tool.**                 | What weeks 2–3 did. Agent generates Python that calls `subprocess.run(["samtools", ...])` or hits a REST API.                  | Versioned, reusable code.                     | Silent flag mistakes; throwaway for one-off questions.   |
+| **2. Agent executes commands directly.**                      | Antigravity agent mode, Claude Code, Cursor terminal. Agent literally runs `samtools view -c file.bam chr21` and reads stdout. | An answer (and a session log if you save it). | Side effects, *"rm -rf my data,"* no shareable artifact. |
+| **3. Agent calls structured tools (MCP / function calling).** | Tools wrapped as named, typed interfaces invoked via protocol. BioMCP, NCBI MCP, custom servers.                               | Structured, auditable, composable.            | Somebody builds and maintains the wrapper.               |
+
 
 The criterion for choosing:
 
@@ -39,7 +41,7 @@ That heuristic is what you should walk away with. You will spontaneously ask *"i
 
 The mechanism by which preferences and context persist across agent sessions.
 
-- **`AGENTS.md` / `CLAUDE.md` / `.cursorrules`.** Markdown at repo root that the agent reads on every session. Tells it your conventions: GRCh38 not GRCh37, Python 3.11 not 3.9, pytest not unittest, never commit to `main`. **Add a 10-line `AGENTS.md` to your genomic-benchmarks repo capturing one or two real conventions from `lessons.md`.** This is the highest-leverage single thing you can do to make next month's work smoother.
+- **`AGENTS.md` / `CLAUDE.md` / `.cursorrules`.** Markdown at repo root that the agent reads on every session. Tells it your conventions: GRCh38 not GRCh37, Python 3.11 not 3.9, pytest not unittest, never commit to `main`. **Add a 10-line `AGENTS.md` to your genomic-benchmarks repo capturing one or two real conventions from your [`lessons.md`](../lessons.md) Surprises entries.** This is the highest-leverage single thing you can do to make next month's work smoother.
 - **Slash commands / custom commands.** Saved prompts wrapping repeatable workflows. `/explain this CDS`, `/check coordinates`. Each agent IDE has its own flavor; the concept is universal.
 - **Skills.** Newer pattern — instead of one big rules file, a directory of focused capability bundles the agent loads when relevant. Each is a `SKILL.md` plus optional helpers. For a bioinformatics group: a *"VCF handling"* skill, a *"GFF/BED coordinate conversions"* skill, an *"ESMFold-via-API"* skill. The pattern is emergent; bring ideas to the in-person week and we'll build them together.
 
@@ -54,7 +56,7 @@ Pick 3–5 tasks from BioTerm-Bench (link in starter repo). Run with Antigravity
 1. **Read the spec.** Predict yourself how an expert bioinformatician would solve it (which tools, which flags). Write the prediction down before invoking the agent.
 2. **Let the agent attempt.** Observe what it does.
 3. **Compare.** Same tools? Correct flags? Right output? Confidently wrong output?
-4. **Log failure modes** in `lessons.md`.
+4. **Log failure modes** under **Week 4 → Surprises** in [`lessons.md`](../lessons.md).
 
 Same epistemology as the week 2 trap exercise, applied to a published benchmark with known answers. You get to see, with numbers, where current agents are reliable and where they aren't.
 
@@ -86,11 +88,11 @@ That reflection paragraph is the assessment. Anyone who can answer it concretely
 
 ### Video
 
-- A current introduction to the Model Context Protocol — Anthropic's intro on [`modelcontextprotocol.io`](https://modelcontextprotocol.io), or a recent good walk-through (~30–45 min). Pick the most current well-produced video at cohort launch — link refreshed in the kick-off email. The conceptual leap from *"agent runs shell commands"* to *"agent calls structured tools"* needs a concrete demo.
+- A current introduction to the Model Context Protocol — Anthropic's intro on `[modelcontextprotocol.io](https://modelcontextprotocol.io)`, or a recent good walk-through (~30–45 min). Pick the most current well-produced video at cohort launch — link refreshed in the kick-off email. The conceptual leap from *"agent runs shell commands"* to *"agent calls structured tools"* needs a concrete demo.
 
 ### Reading
 
-- Mitchener et al., [*BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology*](https://arxiv.org/abs/2503.00096), arXiv 2025. Quantifies what agents can actually do on real bioinformatics analyses. The honest numbers are the calibration the whole course has been building toward.
+- Mitchener et al., *[BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology](https://arxiv.org/abs/2503.00096)*, arXiv 2025. Quantifies what agents can actually do on real bioinformatics analyses. The honest numbers are the calibration the whole course has been building toward.
 
 ---
 
@@ -104,13 +106,13 @@ That reflection paragraph is the assessment. Anyone who can answer it concretely
 
 ## What "done" looks like
 
-- [ ] `pyproject.toml` (uv-managed) added to your week 3 repo; project runs in a clean venv
-- [ ] 10-line `AGENTS.md` committed at repo root
-- [ ] BioTerm-Bench: 3–5 tasks attempted, predictions vs agent results logged
-- [ ] One MCP demo tried; observation about it written into `lessons.md`
-- [ ] Repo tagged `v0.1`
-- [ ] `reflection.md` committed: *"what I would and wouldn't trust an agent with."*
-- [ ] Repo URL submitted to the cohort form before the in-person week
+- `pyproject.toml` (uv-managed) added to your week 3 repo; project runs in a clean venv
+- 10-line `AGENTS.md` committed at repo root
+- BioTerm-Bench: 3–5 tasks attempted, predictions vs agent results logged
+- One MCP demo tried; observation written under **Week 4 → Surprises** in [`lessons.md`](../lessons.md)
+- Repo tagged `v0.1`
+- `reflection.md` committed: *"what I would and wouldn't trust an agent with."*
+- Repo URL submitted to the cohort form before the in-person week
 
 ---
 

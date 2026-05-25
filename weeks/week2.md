@@ -1,7 +1,10 @@
 # Week 2 — Agentic IDEs on bioinformatics tasks
 
 **Dates.** Monday 1 June – Friday 5 June 2026
-**Live session.** **Friday 5.6 · 12:00–12:30** — drop-in Q&A (Europe/Prague)
+**Live sessions (Europe/Prague).**
+
+- **Tuesday 2.6 · 11:00–14:00** — Stefan — *Feature Engineering: Translating Scientific Intuition into Numbers* (2h lecture + 1h Q&A)
+- **Friday 5.6 · 12:00–12:30** — drop-in Q&A
 
 **Goal.** Move from talking to an LLM to working alongside an agent in a real IDE on real bio tasks. Develop the rhythm of when to let the agent run and when to intervene. Internalize the single most important lesson of the course:
 
@@ -64,9 +67,9 @@ This is the lesson. Not *"the agent made a mistake"* — every tool makes mistak
 
 > *The proteins don't start with M and aren't divisible by 3. I think there may be a coordinate system mismatch — GFF is 1-based inclusive, but Python slicing is 0-based with an exclusive end. Please review and fix.*
 
-The agent will almost certainly fix it cleanly once told. Re-run, validate, confirm M-starts. Discuss with yourself in `lessons.md`: *the agent had all the information to get this right the first time. Why didn't it? What does that tell you about how to prompt next time?*
+The agent will almost certainly fix it cleanly once told. Re-run, validate, confirm M-starts. Under **Week 2 → Surprises** in [`lessons.md`](../lessons.md), note what happened and why the agent missed it the first time.
 
-**Discussion questions for `lessons.md`:**
+**Discussion questions** (answer under **Week 2 → From the materials** in [`lessons.md`](../lessons.md)):
 
 - What other *"looks right but isn't"* failures might hide in agent-generated bioinformatics code? (Strand handling, GRCh37/38 confusion, BED vs GFF, 0-based vs 1-based VCF positions, samtools mpileup off-by-one, BAM flag bitfield misreads, phred encoding…)
 - For your own subfield, what are three biological invariants you could routinely use to validate agent output?
@@ -86,7 +89,7 @@ End-to-end with the agent. Hit moments where it goes off the rails. Recover. Com
 
 ### Reflection (~30 min)
 
-Add to `lessons.md`: where did the agent help most, where did it mislead you, where did you have to step in. Be specific — *"agent confused 0-based and 1-based again on the BED filter"* is more useful than *"agent made mistakes."*
+Under **Week 2 → Surprises** in [`lessons.md`](../lessons.md): where did the agent help most, where did it mislead you, where did you have to step in. Be specific — *"agent confused 0-based and 1-based again on the BED filter"* is more useful than *"agent made mistakes."*
 
 ---
 
@@ -120,7 +123,7 @@ Add to `lessons.md`: where did the agent help most, where did it mislead you, wh
 - Git basics comfortable: `clone`, `add`, `commit`, `push`, branches, `.gitignore`
 - All four guided exercises complete; trap exercise included with both pre-fix and post-fix outputs committed
 - One mini-project committed end-to-end
-- `lessons.md` updated with at least one trap-exercise-style observation
+- [`lessons.md`](../lessons.md): **Week 2 → Surprises** updated with at least one trap-exercise-style observation
 
 ---
 

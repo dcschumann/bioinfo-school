@@ -1,7 +1,10 @@
 # Week 3 — Bio foundation models as tools
 
 **Dates.** Monday 8 June – Friday 12 June 2026
-**Live session.** **Friday 12.6 · 12:00–12:30** — drop-in Q&A (Europe/Prague)
+**Live sessions (Europe/Prague).**
+
+- **Tuesday 9.6 · 11:00–14:00** — Stefan — *Interpretability: Translating AI Outputs Back into Human Knowledge* (2h lecture + 1h Q&A)
+- **Friday 12.6 · 12:00–12:30** — drop-in Q&A
 
 **Goal.** Treat ESM, AlphaFold/Boltz, and genomic LMs as tools the agent calls — not as objects of study. Build evaluation literacy: what does it mean to trust a foundation-model output, and how do you check?
 
@@ -77,7 +80,7 @@ Take a pre-trained genomic language model, run it on one [Genomic Benchmarks](ht
 
 ### Reflection (~30 min)
 
-Update `lessons.md` with which tasks the agent handled confidently, which biological invariants you checked, what you wouldn't trust the agent to do unsupervised.
+Under **Week 3 → Surprises** in [`lessons.md`](../lessons.md): which tasks the agent handled confidently, which biological invariants you checked, what you wouldn't trust the agent to do unsupervised.
 
 ---
 
@@ -112,7 +115,7 @@ Update `lessons.md` with which tasks the agent handled confidently, which biolog
 - At least one structure predicted (Exercise B); pLDDT and PAE eyeballed and noted
 - Genomic Benchmarks pipeline (Exercise C) committed and runnable end-to-end
 - Honest comparison numbers vs published CNN baseline written up in the repo (`exercises/week3/results.md`)
-- `lessons.md` updated with at least one new failure mode and one new validation hook
+- [`lessons.md`](../lessons.md): **Week 3 → Surprises** updated with at least one new failure mode and one new validation hook
 
 ---
 
