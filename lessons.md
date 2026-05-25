@@ -156,13 +156,51 @@ Most coomon errors:
   
 
 ### Hands-On Task
-Vanilla Chatbot:
 
+Vanilla Chatbot: ChatGPT v.5.5 ; Gemini v.3.5 Flash & Grok v.4.3 Beta Fast (free, with account but no Skills.md or Specifications)
 
-Chatbot with Code Execution:
+Code Execution: Claude (free) with analysis tool + personal specifications; ChatGPT v5.5 after prompt execution; Google AI Studio (Gemini 3.5 Flash, free)
 
+Prompt: I have a FASTA file with non-standard headers in this format:
+>sp|P68871|HBB_HUMAN Hemoglobin subunit beta OS=Homo sapiens OX=9606 GN=HBB PE=1 SV=2
+Write Python code to parse the UniProt accession (P68871), the gene name (HBB), and the organism (Homo sapiens) from this header string.
 
-#### What I'd want to test! & Suprises 
+All three vanilla bots (ChatGPT, Gemini, Grok) generated working code, but the task was too simple to serve as a true comparison, since all the data was already included in the prompt. 
+
+* No one has tested an edge case (missing GN=, multiple headers, empty file)
+* No one has verified the output ->  run it by my self and hope for the best 
+
+Claude's framing: The gap isn't "who writes better code" — it's "who knows whether the code is correct."
+
+Surprisingly, ChatGPT and Grok executed code directly within the free tier, which blurs the distinction between vanilla and code execution. A real gap would become apparent with a real file containing inconsistent headers.
+
+Prompt 2 (revised): I'm working with UniProt FASTA headers and want to verify my parsing against the actual UniProt database. Here are three headers with potentially inconsistent formatting:
+>sp|P68871|HBB_HUMAN Hemoglobin subunit beta OS=Homo sapiens OX=9606 GN=HBB PE=1 SV=2
+>tr|A0A087X1C5|A0A087X1C5_HUMAN Putative uncharacterized protein OS=Homo sapiens OX=9606 PE=4 SV=1
+>sp|P00533|EGFR_HUMAN Epidermal growth factor receptor OS=Homo sapiens OX=9606 GN=EGFR PE=1 SV=2
+
+1. Write Python to parse accession, gene name (if present), and organism from all three
+2. For each accession, fetch the actual protein name from the UniProt REST API (https://rest.uniprot.org/uniprotkb/{accession}.json) and check if it matches the header
+3. Flag any discrepancies
+
+**ChatGPT** (free, Code Interpreter) called the UniProt REST API for real and found a genuine discrepancy: A0A087X1C5 is currently listed as Cytochrome P450 2D7, not Putative uncharacterized protein — the header was outdated. The result was verified, not guessed.
+
+**Grok** produced clean, well-structured code — but its sandbox has no internet access (Connection refused). All three API calls failed silently with ⚠️ Could not compare. The code looked correct; the result was useless.
+
+**Claude** — same limitation as Grok. Sandbox without internet access. Can search the web and fetch URLs as a tool, but cannot make HTTP requests from within executing code. 
+Takeaway: Not all code execution is created equal—the sandbox’s internet access makes all the difference for database-dependent tasks.
+
+**Google AI Studio with Gemini**
+Result: A fully interactive web app with a live API connection, batch upload functionality, an export report, and automatically generated test cases (including intentional organism/name mismatches). Took 229 seconds. Takeaway: Gemini AI Studio interprets coding tasks as app-building projects, not as script requests -> useful if you want a tool, surprising if you just wanted code to understand. 
+
+Gemini provided two outputs at once without being asked—an interactive app AND a dependency-free Python script. 
+
+| Bot | Sandbox Internet | Output | Verified? |
+|-----|-----------------|--------|-----------|
+| ChatGPT (free) | Yes | Python script | Real discrepancy found |
+| Grok (free) | No | Python script | All API calls failed |
+| Claude (free) | No | Python script + edge case test | Same sandbox limit |
+| Gemini AI Studio (free) | Yes | Interactive app + Python script | Live API connected |
 
 
 
