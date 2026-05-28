@@ -131,6 +131,31 @@ Most coomon errors:
   * two demonstrations -> silm versions performed better then the full version (documentation + demonstrations)
   * strong cross-talk generalizability -> more useful then natural language documentation in cotext learning in models
 
+### From the Lecture - Domain Expertise — The Internal Validator of AI Quality
+
+What is one example from my own domain where expertise is needed to instruct an LLM, design a model, or validate an AI-generated result?
+
+**Domain expertise in ecomorphological classification of Malagasy ants**
+
+using a Random Forest model to predict ecological niche membership from morphological traits, the model can achieve high accuracy on the training/test split while actually learning a spurious signal
+ e.g. ecomorphs happen to cluster by collection locality or taxonomic group rather than by true morphological differentiation 
+
+ -> without domain knowlegde, a high k looks sucessfull (but isn't)
+
+1. **Introducing the LLM** = asking e.g. Claude debug/design RF pipline -> need specification that the ecological variables (Functional Role, Nesting Niche, Foraging Niche) are theoretically independent dimensions; LLM cannot know that DOMINANT as a funcional rolle is a bahavioral/competitive category and not a size one // xplaining why Set A (raw traits) and Set B (size-corrected residuals) represent genuinely different biological questions, not just preprocessing variants
+
+2. **Model Design** = choice to use inverse-frequency weighting (S2) versus random oversampling (S3) versus unweighted training (S1); depends on whether rare ecomorphs in the sample are rare because of genuine biological rarity or because of sampling bias in the museum collections -> LLm cannot thell which one is scientifcally defensible, only implement what I tell 
+
+3. **Validation** = critical checking whether the traits the model weights most heavily (consistently: EL, eye length) are plausible under known ant biology e.g. If the model had instead selected PW (petiole width) as the dominant predictor across all three niche dimensions, that would be a red flag requiring investigation, not just acceptance. A metric alone cannot catch this. Only familiarity with ant morphology and ecomorph theory can.
+
+=> Clever Hans analogy maps directly: a model that achieves 88% trophic niche accuracy by partially tracking body size covariance rather than true ecomorphological signal would look identical in the confusion matrix to a model that learned the right thing
+
+before trusting any classification result in my dataset, I would need to verify that ecomorph membership is not confounded with collection region, collector identity, or taxonomic family representation
+
+e.g. If all Camponotus specimens happen to be labeled "Dominant" and the model is effectively doing genus recognition, the biology is meaningless.
+
+~ domain expertise tells you not just whether a result is numerically acceptable, but whether the right thing was measured at all
+
 
 ### Reflection Excercise
 
