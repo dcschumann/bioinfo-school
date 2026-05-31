@@ -46,7 +46,7 @@ Add an entry whenever an LLM or agent catches you off guard. Include enough deta
 
 ## Week 1 - What an LLM actually is?
 
-#### Deep Dive into LLMs like ChatGPT (Karpathy, 3h31m, Feb 2025) - *what's the one thing I'd want to test from what I just heard?*
+### Deep Dive into LLMs like ChatGPT (Karpathy, 3h31m, Feb 2025) - *what's the one thing I'd want to test from what I just heard?*
 
 * LLM's -> proabilistic text simulator
 * Mental Model of LLM: Predictor of the next token based on patterns in a text corpus.
@@ -90,7 +90,7 @@ LLM intelligence is uneven -> "Swiss Cheese Intelligence"
 - Jagged Edges / Swiss Cheese Capability Model 
 - whether "reasoning" in LLMs is a just token-space search over patterns or somthing deeper emerges when thinking is involved 
 
-#### Jin et al., 2024 GeneGPT: Argmenting Large Language Models with Domain Tolls for Improved Access to Biomedical Information - *what claim in this paper would I most want to verify on my own data?*
+### Jin et al., 2024 GeneGPT: Argmenting Large Language Models with Domain Tolls for Improved Access to Biomedical Information - *what claim in this paper would I most want to verify on my own data?*
 
 GeneGPT - teaches models to use real world tools like NCBI Web API
 
@@ -220,6 +220,8 @@ Takeaway: Not all code execution is created equal—the sandbox’s internet acc
 **2026-05-25 Google AI Studio with Gemini**
 Result: A fully interactive web app with a live API connection, batch upload functionality, an export report, and automatically generated test cases (including intentional organism/name mismatches). Took 229 seconds. Takeaway: Gemini AI Studio interprets coding tasks as app-building projects, not as script requests -> useful if you want a tool, surprising if you just wanted code to understand. 
 
+### Suprises - Week 1
+
 Gemini provided two outputs at once without being asked—an interactive app AND a dependency free Python script. 
 
 | Bot | Sandbox Internet | Output | Verified? |
@@ -230,10 +232,11 @@ Gemini provided two outputs at once without being asked—an interactive app AND
 | Gemini AI Studio (free) | Yes | Interactive app + Python script | Live API connected |
 
 
+----
 
 ## Week 2 - Agentic IDEs on bioinformatics tasks
 
-####  Software Is Changing (Again) (Karpathy, 40m, 2025) - *what's the one thing I'd want to test from what I just heard?*
+###  Software Is Changing (Again) (Karpathy, 40m, 2025) - *what's the one thing I'd want to test from what I just heard?*
 
 ~ outlines a fundamental shift in how software is created and utilized, moving from traditional coding to an era of programmable intelligence
 
@@ -253,9 +256,9 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 
 **The "Psychology" of LLMs**
 
-+ : possess encyclopedic knowledge and memory, capable of recalling vast amounts of information far beyond human capacity
+* (+): possess encyclopedic knowledge and memory, capable of recalling vast amounts of information far beyond human capacity
 
-- : hallucinations, "jagged intelligence" (making mistakes no human would make), and anterograde amnesia
+* (-): hallucinations, "jagged intelligence" (making mistakes no human would make), and anterograde amnesia
 
 **Concept of the "autonomy slider"**
 
@@ -267,6 +270,7 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 1. **Machine-Readable Docs**: Documentation should be provided in formats like markdown rather than just human-centric web pages
 2. **Agent Protocols**: like the Model Context Protocol and simple files like llm.txt that help agents understand a website's purpose without having to parse complex HTML
 3. **Replacing "Click" with "Curl"**: documentation must replace human-centric instructions (like "click here") with programmable commands (like curl) that an agent can execute
+   
 
 #### Yao et al., 2023 ReAct: Synergizing Reasoning and Acting in Language Models - *what claim in this paper would I most want to verify on my own data?*
 
@@ -300,6 +304,7 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 
 * few-shot prompting showed strong results
 * finetuning smaller models (like PaLM-8B or 62B) on ReAct trajectories significantly improved their performance -> "Finetuned ReAct models outperformed those trained only on "Standard" or "CoT" formats because they were taught the generalizable skill of how to reason and act to access information, rather than just memorizing facts"
+  
 
 ### From the Lecture - Feature Engineering: Translating Scientific Intuition into Numbers
 
@@ -329,4 +334,4 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 
 
 
-### Suprises
+### Suprises - Week 2
