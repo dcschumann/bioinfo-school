@@ -332,6 +332,19 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 
 2. Script that reads a FASTQ file and produces basic QC stats with a one-page HTML report.
 
+File: SRR000001 (454 sequencing of Human HapMap individual NA18505 genomic paired-end library) - uploaded
+Model: 
 
+What the script need to do:
+
+* read FASTQ
+* basic statistics like counting reads, read length, GC content
+* report in HTML
+
+**Start-Prompt**
+
+*Write a Python script that reads a FASTQ file, computes basic QC stats (number of reads, average read length, GC content, mean Phred quality score per position), and outputs a one-page HTML report with a summary table and a quality-per-position plot.*
+
+Potenzial Failure of the Agent -> Phred Encoding [2 standards - Phred+33 & Phred+64] 
 
 ### Suprises - Week 2
