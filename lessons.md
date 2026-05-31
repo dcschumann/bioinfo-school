@@ -236,7 +236,7 @@ Gemini provided two outputs at once without being asked—an interactive app AND
 
 ## Week 2 - Agentic IDEs on bioinformatics tasks
 
-###  Software Is Changing (Again) (Karpathy, 40m, 2025) - *what's the one thing I'd want to test from what I just heard?*
+###  Software Is Changing (Again) (Karpathy, 40m, 2025)
 
 ~ outlines a fundamental shift in how software is created and utilized, moving from traditional coding to an era of programmable intelligence
 
@@ -272,9 +272,9 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 3. **Replacing "Click" with "Curl"**: documentation must replace human-centric instructions (like "click here") with programmable commands (like curl) that an agent can execute
    
 
-#### Yao et al., 2023 ReAct: Synergizing Reasoning and Acting in Language Models - *what claim in this paper would I most want to verify on my own data?*
+### Yao et al., 2023 ReAct: Synergizing Reasoning and Acting in Language Models 
 
--> introduces large language models (LLMs) to solve complex tasks by combining reasoning traces and task-specific actions
+~ introduces large language models (LLMs) to solve complex tasks by combining reasoning traces and task-specific actions
 
 **Concept:**
 
@@ -326,7 +326,7 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 *If you had ten thousand CDS features and couldn't eyeball them all, how would you scale this validation?*
 
 
-### Mini-Project
+### Mini-Project(s)
 
 1. Small CLI tool that takes a list of UniProt IDs and produces a summary table (length, organism, domain annotations) via the UniProt REST API.
 
