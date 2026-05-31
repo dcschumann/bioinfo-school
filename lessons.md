@@ -331,7 +331,8 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 1. Small CLI tool that takes a list of UniProt IDs and produces a summary table (length, organism, domain annotations) via the UniProt REST API.
 
 2. Script that reads a FASTQ file and produces basic QC stats with a one-page HTML report.
-
-
+   * **Completed:** Created [fastq_qc.py](file:///c:/Users/gesti/OneDrive/Dokumente/GitHub/bioinfo-school/week2/fastq-project/fastq_qc.py) which handles both raw and `.gz` compressed files, computes total reads, average read length, GC content, and mean quality score per position, and saves an elegant Tailwind CSS + Chart.js dynamic dashboard to [test_report.html](file:///c:/Users/gesti/OneDrive/Dokumente/GitHub/bioinfo-school/week2/fastq-project/test_report.html).
 
 ### Suprises - Week 2
+
+> **2026-05-31 · Antigravity agent** — Asked: *"Write a Python script that reads a FASTQ file, computes basic QC stats, and outputs a one-page HTML report with a summary table and a quality-per-position plot."* The agent designed a single-file script that automatically detects and handles `.gz` files (using Python's native `gzip`), and bypassed the need for `matplotlib` or `seaborn` dependencies by generating a modern, responsive HTML report containing Chart.js via CDN. The script also includes a built-in `--mock` generator to produce realistic Illumina synthetic reads for instant, hassle-free testing. **Takeaway:** Designing reports that delegate rendering logic to client-side JS libraries yields cleaner Python code and zero-dependency executable scripts.
