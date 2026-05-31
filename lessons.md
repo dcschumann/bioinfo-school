@@ -232,3 +232,101 @@ Gemini provided two outputs at once without being asked—an interactive app AND
 
 
 ## Week 2 - Agentic IDEs on bioinformatics tasks
+
+####  Software Is Changing (Again) (Karpathy, 40m, 2025) - *what's the one thing I'd want to test from what I just heard?*
+
+~ outlines a fundamental shift in how software is created and utilized, moving from traditional coding to an era of programmable intelligence
+
+**The Three Paradigms of Software:**
+
+**Software 1.0:** traditional code humans write directly for computers to carry out digital tasks
+
+**Software 2.0:** neural networks -> instead of writing code, humans tune data sets and run optimizers to create the parameter of a neural net
+
+**Software 3.0:** Large Language Models (LLMs) -> new kind of programmable computer [paradigm, English is the programming language, and prompts are the programs]
+
+=> LLMs = New Operating System "..LLMs are not just utilities like electricity; they are closer to operating systems."
+
+e.g. Hardware Analogies: LLM acts as a CPU equivalent -> compute and problem-solving, & context window serves as working memory
+
+Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Anthropic) and **open-source alternatives** (like the Llama ecosystem)
+
+**The "Psychology" of LLMs**
+
++ : possess encyclopedic knowledge and memory, capable of recalling vast amounts of information far beyond human capacity
+
+- : hallucinations, "jagged intelligence" (making mistakes no human would make), and anterograde amnesia
+
+**Concept of the "autonomy slider"**
+
+* advocates for apps that combine traditional manual interfaces with LLM integration,rather than fully autonomous agent
+* GUI for Verification -> LLMs are fallible, Graphic User Interfaces (GUIs) are essential
+
+**Building for Agents** - AI agents become primary consumers of digital information
+
+1. **Machine-Readable Docs**: Documentation should be provided in formats like markdown rather than just human-centric web pages
+2. **Agent Protocols**: like the Model Context Protocol and simple files like llm.txt that help agents understand a website's purpose without having to parse complex HTML
+3. **Replacing "Click" with "Curl"**: documentation must replace human-centric instructions (like "click here") with programmable commands (like curl) that an agent can execute
+
+#### Yao et al., 2023 ReAct: Synergizing Reasoning and Acting in Language Models - *what claim in this paper would I most want to verify on my own data?*
+
+-> introduces large language models (LLMs) to solve complex tasks by combining reasoning traces and task-specific actions
+
+**Concept:**
+
+* built on the idea that human intelligence combines task-oriented actions with verbal reasoning to strategize and handle exceptions
+* augmenting the LLM’s action space to include a "language space" (thoughts), the model can generate "reasoning traces"
+* help induce, track, and update action plans
+* thoughts do not affect the environment but instead help the model manage its own internal "working memory" & reasoning process
+
+=> Overcoming Limitations of Prior Methods 
+
+* Cahin of Thoughts only (good internal reasoning; not grounded in extrenal refrences) -> fact hallucination
+* Act only -> lack the ability of reason & maintain working memory
+
+**ReAct - Testing across 4 Benchmarks**
+
+1. question answering (HotpotQA)
+2. fact verification (Fever)
+3. text-based games (ALFWorld)
+4. web navigation (WebShop)
+
+* HotpotQA and Fever, ReAct overcomes hallucination by interacting with a Wikipedia API to ground its reasoning in factual data
+* ALFWorld and WebShop, ReAct outperformed imitation and reinforcement learning methods by 34% and 10% absolute success rates
+
+=> best results often came from combining ReAct and CoT-SC (Self-Consistency), which allows the model to use its internal knowledge when confident and back off to external search (ReAct) when it is not
+
+=> Human-in-the-loop ~ makes the model's decision-making process more interpretable, trustworthy, and diagnosable
+
+* few-shot prompting showed strong results
+* finetuning smaller models (like PaLM-8B or 62B) on ReAct trajectories significantly improved their performance -> "Finetuned ReAct models outperformed those trained only on "Standard" or "CoT" formats because they were taught the generalizable skill of how to reason and act to access information, rather than just memorizing facts"
+
+### From the Lecture - Feature Engineering: Translating Scientific Intuition into Numbers
+
+
+### Guided Exercises
+
+
+### Trap Exercise
+
+
+#### Discussion Questions
+
+*What other "looks right but isn't" failures might hide in agent-generated bioinformatics code? (Strand handling, GRCh37/38 confusion, BED vs GFF, 0-based vs 1-based VCF positions, samtools mpileup off-by-one, BAM flag bitfield misreads, phred encoding…)*
+
+
+*For your own subfield, what are three biological invariants you could routinely use to validate agent output?*
+
+
+*If you had ten thousand CDS features and couldn't eyeball them all, how would you scale this validation?*
+
+
+### Mini-Project
+
+1. Small CLI tool that takes a list of UniProt IDs and produces a summary table (length, organism, domain annotations) via the UniProt REST API.
+
+2. Script that reads a FASTQ file and produces basic QC stats with a one-page HTML report.
+
+
+
+### Suprises
