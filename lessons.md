@@ -349,6 +349,7 @@ Model: Gemini 3.5 Flash (Low)
 Result:
 
 alpha_orf	ATGAAATTTGGCCAATTTTAA	MKFGQF*
+
 beta_orf	ATGGCTGCCCCAAAGCTATGA	MAAPKL*
 
 
