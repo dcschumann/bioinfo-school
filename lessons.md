@@ -311,29 +311,143 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 
 ### Guided Exercises
 
+4 Problems identified 
+
+1. File not found /PATH Problem 
+2. Missing Last Record in read_fasta function
+3. Dictonary unpacking error
+4. Case Sensitivity & Division by Zero in gc_percente function 
+
+Results of example.fa 
+
+high_gc_example 16 0.875
+low_gc_example 16 0.00
+
+= > genuine bioinformatics task — "write a script that takes this VCF and outputs allele frequencies per chromosome"
+
+- analyzed everything in the repo of the available github
+- gives out a python script
+- creates a mock file for testing
+- test run by myself with --mock
+
+- Feautures:
+  - Dual Calculation of Allele Frequencies (INFO/AF Tag) & sample Genotypes (GF)
+  - Compression suport
+  - mock utility included
+
+Model: Gemini 3.5 Flash (Low)
+
+
 
 ### Trap Exercise
 
+Model: Gemini 3.5 Flash (Low)
+
+-> Agent not run in Trap 
+
+Result:
+
+alpha_orf	ATGAAATTTGGCCAATTTTAA	MKFGQF*
+beta_orf	ATGGCTGCCCCAAAGCTATGA	MAAPKL*
+
+
+All Verfication Questions:
+
+1. Does every protein start with M? -> Yes
+2. Does every protein end with * (stop)? -> Yes
+3. Is the nucleotide length divisible by 3? -> Yes
 
 #### Discussion Questions
 
 *What other "looks right but isn't" failures might hide in agent-generated bioinformatics code? (Strand handling, GRCh37/38 confusion, BED vs GFF, 0-based vs 1-based VCF positions, samtools mpileup off-by-one, BAM flag bitfield misreads, phred encoding…)*
 
+**Coordinate system mismatches:**
+
+- BED is 0-based half-open, GFF is 1-based inclusive, VCF is 1-based — mixing these in the same script shifts every feature by one position silently
+- samtools mpileup has known off-by-one behavior depending on version and flags
+- GRCh37 vs GRCh38 confusion — same gene, different coordinates, no error thrown, wrong results
+
+**Sequence handling:**
+
+- Strand handling — agent extracts the correct coordinates but forgets to reverse-complement for minus-strand features, producing the wrong sequence with no error
+- Phred encoding mismatch (Phred+33 vs Phred+64) — quality scores are silently shifted by 31, everything looks numeric and plausible
+- Hardmasked vs softmasked genome — agent uses a masked genome and extracts lowercase sequence without noticing, translation produces garbage
+
+**Format misreads:**
+
+- BAM flag bitfield misreads — agent checks flag == 16 instead of flag & 16, missing all reads where other flags are also set
+- CIGAR string parsing — agent sums M operations to get read length but M includes both matches and mismatches, and ignores insertions/deletions
+- GTF vs GFF3 attribute parsing — both look like key-value pairs but use different delimiters and quoting rules, agent conflates them
+
+**Database and reference issues:**
+
+- UniProt canonical vs isoform sequences — agent fetches the canonical entry but the experiment used a specific isoform
+- Genome annotation version mismatch — Ensembl gene IDs are version-specific, ENSG00000... IDs from different releases don't always map 1:1
+
 
 *For your own subfield, what are three biological invariants you could routinely use to validate agent output?*
+
+1. **Trait value ranges** - morphological measurements (HW, HL, EL, SL, WL etc.) must fall within biologically plausible ranges for ants. A head width of 50mm or an eye length of 0mm should immediately flag a parsing or unit error.
+2. **Size-correction consistency** - after size-correcting traits (residuals from regression on WL), the residuals must be centered around zero per trait. A systematic offset indicates the wrong regression was applied or the wrong column was used as the size proxy.
+3. **Phylogenetic signal direction** - known ecomorph groups (e.g. army ants, arboreal ants) should cluster predictably in morphospace. If PCA places army ants next to arboreal ants, something is wrong upstream - wrong trait columns, mislabeled specimens, or a transposed matrix.
 
 
 *If you had ten thousand CDS features and couldn't eyeball them all, how would you scale this validation?*
 
+1. **Automated assertions on every feature** - Encode biological invariants as assertions that run on 100% of output (e.g. length must be divisible by 3, must start with ATG and end with *)
+
+for gene, nt_seq, protein in results:
+    assert len(nt_seq) % 3 == 0,         f"{gene}: length not divisible by 3"
+    assert protein.startswith("M"),       f"{gene}: no start methionine"
+    assert protein.endswith("*"),         f"{gene}: no stop codon"
+    assert "*" not in protein[:-1],       f"{gene}: internal stop codon"
+    assert set(nt_seq) <= set("ATCGN"),   f"{gene}: unexpected characters in sequence"
+
+2. **Genome-wide distribution checks** - Plotting feature counts per chromosome (should be proportional to chromosome size) or per gene_type (should match known proportions) reveals large-scale anomalies. -> tools like FastQC and MultiQC do exactly this kind of distributional check + check for features landing outside chromosome boundaries (start < 0 or end > chromosome length) 
+
+3. **Statistical summaries** - Calculating per-feature medians/means and comparing to known values (e.g. average CDS length ~1.5kb, UTRs ~300bp for humans/vertebrates) catches systematic errors. -> expected CDS length varies a lot by organism (e.g. plants have much larger genomes and gene structures than vertebrates)
+
+4. **Proportionality checks** - Checking that exon/intron lengths or CDS/UTR ratios are consistent across chromosomes (with expected variation) flags incorrect parsing or annotation rules. -> e.g. for mammals, CDSs are typically 80-90% of the gene length, while UTRs are only 5-10%. 
+
 
 ### Mini-Project(s)
 
-1. Small CLI tool that takes a list of UniProt IDs and produces a summary table (length, organism, domain annotations) via the UniProt REST API.
+**1. Small CLI tool that takes a list of UniProt IDs and produces a summary table (length, organism, domain annotations) via the UniProt REST API.**
 
-2. Script that reads a FASTQ file and produces basic QC stats with a one-page HTML report.
+File: uniprot_ids.txt - uploaded
+Model: Gimini 3.5 Flash (Low)
+
+What the script need to do:
+
+* read UniProt IDs
+* fetch data from UniProt API
+* produce a summary table
+* report in txt
+
+**Start-Prompt**
+
+*Write a Python script that reads a list of UniProt IDs from a text file (one per line), queries the UniProt REST API for each ID, and outputs a summary table with columns: UniProt ID, protein length, organism, and domain annotations. Save the result as a TXT file.*
+
+Potenzial Failure of the Agent -> two different JSON fields: features (structural domains) and comments (free-text notes)
+
+-> run in Trap
+
+**Fix prompt used:**
+
+*The domain annotations are mixing domain names with long notes text. Please fix the extraction so only domain names and their positions are shown, without the notes.*
+
+**Problem that appeared:**
+
+* Agent mixed two different JSON fields: features (structural domains) and comments (free-text notes)
+* Result: domain column contained long free-text comments instead of clean domain names for some proteins
+* For P04637 (p53) no domain names were extracted at all, only notes — cell showed None [Notes: ...]
+* Fix: removed the entire domain_comments block from the script
+
+
+**2. Script that reads a FASTQ file and produces basic QC stats with a one-page HTML report.**
 
 File: SRR000001 (454 sequencing of Human HapMap individual NA18505 genomic paired-end library) - uploaded
-Model: 
+Model: Gimini 3.5 Flash (Low)
 
 What the script need to do:
 
@@ -347,4 +461,23 @@ What the script need to do:
 
 Potenzial Failure of the Agent -> Phred Encoding [2 standards - Phred+33 & Phred+64] 
 
+**Approach:**
+
+* Agent structured the script correctly on the first attempt
+* Biopython was used to parse the FASTQ file
+* HTML report was generated with summary table and quality plot
+
+**Validation (biological invariants):**
+
+* GC content expected between 40–60%
+* Phred scores between 0–40, never negative
+* Read count cross-checked with grep -c "^@"
+
 ### Suprises - Week 2
+
+- Agent not run in Trap set by exercise 1 -> after reading the given files and also it sepcific domain knowlegde; script correct on first try
+- maybe reason: Science installed in Antigravity IDE
+
+- UniProt JSON extraction:
+  - The agent wrote code that was syntactically correct, threw no errors, and produced output that looked plausible, but was structurally wrong. Domains and free-text notes from two different JSON fields were written into the same column. This only becomes visible if you know how UniProt data is structured and actively validate the output against known proteins.
+-
