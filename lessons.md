@@ -311,6 +311,8 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 
 ### Guided Exercises
 
+**Broken python script** 
+
 4 Problems identified 
 
 1. File not found /PATH Problem 
@@ -318,12 +320,12 @@ Ecosytem Evolution: splitting in **closed-source providers** (like OpenAI or Ant
 3. Dictonary unpacking error
 4. Case Sensitivity & Division by Zero in gc_percente function 
 
-Results of example.fa 
+Results of example.fa:
 
 high_gc_example 16 0.875
 low_gc_example 16 0.00
 
-= > genuine bioinformatics task — "write a script that takes this VCF and outputs allele frequencies per chromosome"
+**= > genuine bioinformatics task — "write a script that takes this VCF and outputs allele frequencies per chromosome"**
 
 - analyzed everything in the repo of the available github
 - gives out a python script
@@ -336,7 +338,6 @@ low_gc_example 16 0.00
   - mock utility included
 
 Model: Gemini 3.5 Flash (Low)
-
 
 
 ### Trap Exercise
@@ -357,9 +358,10 @@ All Verfication Questions:
 2. Does every protein end with * (stop)? -> Yes
 3. Is the nucleotide length divisible by 3? -> Yes
 
+
 #### Discussion Questions
 
-*What other "looks right but isn't" failures might hide in agent-generated bioinformatics code? (Strand handling, GRCh37/38 confusion, BED vs GFF, 0-based vs 1-based VCF positions, samtools mpileup off-by-one, BAM flag bitfield misreads, phred encoding…)*
+**What other "looks right but isn't" failures might hide in agent-generated bioinformatics code?** (Strand handling, GRCh37/38 confusion, BED vs GFF, 0-based vs 1-based VCF positions, samtools mpileup off-by-one, BAM flag bitfield misreads, phred encoding…)
 
 **Coordinate system mismatches:**
 
@@ -385,29 +387,32 @@ All Verfication Questions:
 - Genome annotation version mismatch — Ensembl gene IDs are version-specific, ENSG00000... IDs from different releases don't always map 1:1
 
 
-*For your own subfield, what are three biological invariants you could routinely use to validate agent output?*
+**For your own subfield, what are three biological invariants you could routinely use to validate agent output?**
 
 1. **Trait value ranges** - morphological measurements (HW, HL, EL, SL, WL etc.) must fall within biologically plausible ranges for ants. A head width of 50mm or an eye length of 0mm should immediately flag a parsing or unit error.
 2. **Size-correction consistency** - after size-correcting traits (residuals from regression on WL), the residuals must be centered around zero per trait. A systematic offset indicates the wrong regression was applied or the wrong column was used as the size proxy.
 3. **Phylogenetic signal direction** - known ecomorph groups (e.g. army ants, arboreal ants) should cluster predictably in morphospace. If PCA places army ants next to arboreal ants, something is wrong upstream - wrong trait columns, mislabeled specimens, or a transposed matrix.
 
 
-*If you had ten thousand CDS features and couldn't eyeball them all, how would you scale this validation?*
+**If you had ten thousand CDS features and couldn't eyeball them all, how would you scale this validation?**
 
 1. **Automated assertions on every feature** - Encode biological invariants as assertions that run on 100% of output (e.g. length must be divisible by 3, must start with ATG and end with *)
 
+```{python}
 for gene, nt_seq, protein in results:
     assert len(nt_seq) % 3 == 0,         f"{gene}: length not divisible by 3"
     assert protein.startswith("M"),       f"{gene}: no start methionine"
     assert protein.endswith("*"),         f"{gene}: no stop codon"
     assert "*" not in protein[:-1],       f"{gene}: internal stop codon"
     assert set(nt_seq) <= set("ATCGN"),   f"{gene}: unexpected characters in sequence"
+```
 
 2. **Genome-wide distribution checks** - Plotting feature counts per chromosome (should be proportional to chromosome size) or per gene_type (should match known proportions) reveals large-scale anomalies. -> tools like FastQC and MultiQC do exactly this kind of distributional check + check for features landing outside chromosome boundaries (start < 0 or end > chromosome length) 
 
 3. **Statistical summaries** - Calculating per-feature medians/means and comparing to known values (e.g. average CDS length ~1.5kb, UTRs ~300bp for humans/vertebrates) catches systematic errors. -> expected CDS length varies a lot by organism (e.g. plants have much larger genomes and gene structures than vertebrates)
 
 4. **Proportionality checks** - Checking that exon/intron lengths or CDS/UTR ratios are consistent across chromosomes (with expected variation) flags incorrect parsing or annotation rules. -> e.g. for mammals, CDSs are typically 80-90% of the gene length, while UTRs are only 5-10%. 
+
 
 
 ### Mini-Project(s)
@@ -473,6 +478,7 @@ Potenzial Failure of the Agent -> Phred Encoding [2 standards - Phred+33 & Phred
 * Phred scores between 0–40, never negative
 * Read count cross-checked with grep -c "^@"
 
+
 ### Suprises - Week 2
 
 - Agent not run in Trap set by exercise 1 -> after reading the given files and also it sepcific domain knowlegde; script correct on first try
@@ -480,4 +486,8 @@ Potenzial Failure of the Agent -> Phred Encoding [2 standards - Phred+33 & Phred
 
 - UniProt JSON extraction:
   - The agent wrote code that was syntactically correct, threw no errors, and produced output that looked plausible, but was structurally wrong. Domains and free-text notes from two different JSON fields were written into the same column. This only becomes visible if you know how UniProt data is structured and actively validate the output against known proteins.
--
+
+---
+
+## Week 3 - Bio foundation models as tools
+
