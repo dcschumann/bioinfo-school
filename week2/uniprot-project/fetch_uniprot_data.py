@@ -47,28 +47,8 @@ def fetch_uniprot_info(uniprot_id):
             else:
                 domains.append(f"Domain ({start}-{end})")
 
-    # If no features of type "Domain", check comments of type "DOMAIN"
-    comments = data.get("comments", [])
-    domain_comments = []
-    for comment in comments:
-        if comment.get("commentType") == "DOMAIN":
-            textss = comment.get("textss", [])
-            for text_obj in textss:
-                val = text_obj.get("value")
-                if val:
-                    domain_comments.append(val)
-            # Some versions might have "note" or "texts"
-            texts = comment.get("texts", [])
-            for text_obj in texts:
-                val = text_obj.get("value")
-                if val:
-                    domain_comments.append(val)
-
     # Combine domain annotations
     all_domains = "; ".join(domains) if domains else "None"
-    if domain_comments:
-        all_domains += f" [Notes: {'; '.join(domain_comments)}]"
-
     return {
         "UniProt ID": accession,
         "Protein Length": length,
