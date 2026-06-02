@@ -1,0 +1,6 @@
+UniProt ID	Protein Length	Organism	Domain Annotations
+P69905	142	Homo sapiens	Globin (2-142)
+P68871	147	Homo sapiens	Globin (3-147)
+P00533	1210	Homo sapiens	Protein kinase (712-979)
+P04637	393	Homo sapiens	None [Notes: The N-terminal and C-terminal disordered regions undergo liquid-liquid phase separation (LLPS) following homotetramerization and activation (PubMed:31953488, PubMed:35618207, PubMed:36108750, PubMed:36634798, PubMed:38653238). Post-translational modifications, such as phosphorylation or lactylation affect the ability to undergo LLPS (PubMed:31953488, PubMed:35618207, PubMed:36634798, PubMed:38653238); The nuclear export signal acts as a transcriptional repression domain. The TADI and TADII motifs (residues 17 to 25 and 48 to 56) correspond both to 9aaTAD motifs which are transactivation domains present in a large number of yeast and animal transcription factors]
+Q9Y233	1055	Homo sapiens	GAF 1 (367-510); GAF 2 (542-688); PDEase (718-1035) [Notes: The tandem GAF domains bind cAMP, and regulate enzyme activity. The binding of cAMP stimulates enzyme activity; Composed of a C-terminal catalytic domain containing two divalent metal sites and an N-terminal regulatory domain which contains one cyclic nucleotide-binding region]
