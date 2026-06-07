@@ -1,0 +1,6 @@
+UniProt ID	Protein Length	Organism	Domain Annotations
+P69905	142	Homo sapiens	Globin (2-142)
+P68871	147	Homo sapiens	Globin (3-147)
+P00533	1210	Homo sapiens	Protein kinase (712-979)
+P04637	393	Homo sapiens	None
+Q9Y233	1055	Homo sapiens	GAF 1 (367-510); GAF 2 (542-688); PDEase (718-1035)
