@@ -492,3 +492,106 @@ Potenzial Failure of the Agent -> Phred Encoding [2 standards - Phred+33 & Phred
 
 ## Week 3 - Bio foundation models as tools
 
+### Nobel Lecture in Chemistry 2024 - John Jumper 
+
+~ iterative development of AlphaFold and a revolutionary AI system for predicting protein structures
+
+**Evoultion of AlphaFold:**
+
+**AlphaFold 1 (2018):**
+
+* Used deep learning to predict protein structures
+* predict distance and torsion distributions from sequence and Multiple Sequence Alignment (MSA) features
+* Applied gradient descent on a protein-specific potential to arrive at a structure
+
+=> Transition 
+
+* explored predicting structures without evolutionary information to better understand how to build physics directly into the network
+* teaching networks to "fill-in" data as a generalization of co-evolution
+* axial attention - process information along geometric axes (rows and columns of distance matrices) instead of pairwise attention over all residue pairs -> greatly reduces computational cost
+
+**AlphaFold 2 (2020):**
+
+* breakthrough by fusing direct structure prediction with evolutionary data in an end-to-end model
+* Evoformer - stack of attention modules that integrates evolutionary information from MSAs with geometric information from distance predictions
+* Self-Distillation - use the previous prediction as training data for the next prediction
+* Confidence estimation - predict pLDDT (per-residue confidence score) alongside the structure & PAE (Predicted Aligned Error) between pairs of residues
+
+-> culmination in AlphaFold Protein Structure Database -> created in partnership with EMBL-EBI
+
+~ providing over 200 mio. predictions (comparison Protein Data Bank which has ~ 210.000 experimental structures)
+
+
+### Abramson et al., 2024 - Accurate structure prediction of biomolecular interactions with AlphaFold 3
+
+* moving beyond proteins to predict the joint structures of complexes containing nucleic acids, small molecules (ligands), ions, and modified residues
+* AlphaFold 3's predictions cover DNA, RNA, and protein-ligand complexes with accuracy approaching that of experimental methods
+
+-> achieve high-accuracy modeling across biomolecular space within a unified deep-learning framework
+
+**Key Innovations:**
+
+**1. Diffusion-Based Module**
+
+* Replacing the previous "structure module" that used torsion angles and frames, AF3 uses a diffusion module to predict raw atom coordinates directly.
+* This allows the model to accommodate arbitrary chemical components without specialized bonding rules.
+
+**2. Pairformer Module**
+
+* extends the Evoformer architecture to handle non-protein components
+* explicitly models interactions between different molecule types
+* uses a "recycling" mechanism where the output of a module is fed back as input for several further iterations of processing -> enables the model to iteratively refine its predictions and improve accuracy
+
+**3. Training Data**
+
+* AlphaFold 3 was trained on an unprecedentedly large and diverse dataset: 
+  * protein structures from the PDB (Protein Data Bank)
+  * structures of complexes (proteins bound to other molecules like DNA, RNA, or ligands)
+  * "unpaired" structures where molecules were known but their complexes hadn't been solved yet
+  * This "self-distillation" approach, where the model generates its own training data by predicting structures for which only sequences (or partial information) are available, was crucial for its performance.
+
+**4. Accuracy Improvements**
+
+* Protein-protein complexes: 80% median TM-score (vs 70% for AF2)
+* Protein-ligand complexes: 75% median TM-score
+* Protein-nucleic acid complexes: 70% median TM-score
+* DNA-only and RNA-only complexes also showed substantial improvements
+
+-> represents a major advance in structure prediction, enabling accurate modeling of a much wider range of biomolecular systems
+
+**Limitations**
+
+* **Hallucinations** - AF3 can "hallucinate" structures, i.e. produce incorrect or nonsensical predictions, especially for proteins that are very different from those in its training data
+* **Stereochemistry** - still struggles to produce chemically correct structures, with some predictions violating basic principles of stereochemistry (like chiral violations or overlapping (clashing) atoms, particularly in very large protein-nucleic complexes)
+* **Static Nature** - AF3 predicts a single static structure, not an ensemble of structures that could represent the dynamic nature of biomolecular complexes
+* **Conformational States** - can only model one conformational state, not the full ensemble of states that a protein may adopt
+
+**Summary:**
+
+**AlphaFold 1 (2018):** 
+* protein structures only, based on evolutionary information + geometry
+* from sequence and Multiple Sequence Alignment (MSA) features -> then processed via gradient descent on a protein-specific potential -> structure generation
+
+**AlphaFold 2 (2020):**
+* protein structures only, breakthrough by fusing direct structure prediction with evolutionary data
+* Evoformer – stack of attention modules that integrates evolutionary information from MSAs with geometric information from distance predictions
+* Self-Distillation - use the previous prediction as training data for the next prediction
+* Confidence estimation - predict pLDDT (per-residue confidence score) alongside the structure & PAE (Predicted Aligned Error) between pairs of residues
+
+
+**AlphaFold 3 (2024):**
+* structures of complexes containing proteins, DNA, RNA, and small molecules
+* Diffusion-Based Module - Replacing the previous "structure module" that used torsion angles and frames, AF3 uses a diffusion module to predict raw atom coordinates directly. This allows the model to accommodate arbitrary chemical components without specialized bonding rules.
+
+
+### Exercise A - Protein embeddings with ESM
+
+
+### Exercise B - STructure Prediction
+
+
+### Exercise C - Genomic LM on Genomic Benchmarks
+
+
+### Suprises - Week 3
+
