@@ -4,17 +4,20 @@ Use this file for the short Week 3 write-up. Keep it factual: what ran, what fai
 
 ## Exercise A: Structure Prediction
 
-- Tool or notebook:
-- Sequence or target:
-- Mean pLDDT:
-- Low-confidence regions:
-- PAE observation, if relevant:
-- Would you trust this prediction for a biological claim? Why or why not?
+- **Tool or notebook:** Google Colab - AlphaFold2.ipynb
+- **Sequence or target:** 
+    - Ubiquitin (76 aa): MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG 
+- **Mean pLDDT:** Ubiquitin: 95.8 (seed 0) // Ubiquitin: 89.7 (seed 8)
+- **Low-confidence regions:** Some residues at the C-terminus and loop regions showed lower pLDDT scores. 
+- **PAE observation, if relevant:** PAE values were generally low, indicating high confidence in the predicted structures. 
+- **Would you trust this prediction for a biological claim? Why or why not?** - Yes, for the purpose of understanding the general structure and folds of the proteins. However, not for making precise claims about specific residue interactions without experimental validation.
+
+Ubiquitin (seed 0): All five AlphaFold model variants produced highly similar confidence scores (pLDDT 93.9–95.8), suggesting a robust and stable prediction.
 
 ## Exercise B: Protein Embeddings
 
-- Model:
-- Number of sequences:
+- Model: ESM2
+- Number of sequences: 64
 - Pooling choice:
 - Plot files:
 - Did known families cluster?
