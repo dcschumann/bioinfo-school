@@ -20,12 +20,23 @@ The same Ubiquitin sequence was predicted using multiple random seeds (0–7). T
 
 ## Exercise B: Protein Embeddings
 
-- Model: ESM2
-- Number of sequences: 64
-- Pooling choice:
-- Plot files:
-- Did known families cluster?
-- One validation check you performed:
+- Model: ESM2 (320-dimensional embeddings)
+- Number of sequences: 45
+- Pooling choice: mean; over residue embeddings
+- Plot files: umap_protein_embeddings.png
+- Did known families cluster? Yes, the known families clustered together.
+    - Pairwise similarity: Cosine similarities were generally higher within protein families than between different families.
+    - UMAP visualization: The embeddings formed biologically meaningful clusters. GPCRs, kinases, immunoglobulins, and oxygen-binding proteins grouped together in distinct regions of the UMAP projection.
+- One validation check you performed: I visually inspected the PCA/UMAP projections and confirmed that proteins from the same annotated family clustered together.
+
+Extracted 45 sets of per-residue embeddings.
+Shape of first per-residue embedding: (1024, 320)
+Extracted 45 per-sequence embeddings.
+Shape of first per-sequence embedding: (320,)
+
+UMAP embeddings shape: (45, 2)
+
+**Conclusion:** The ESM2 embeddings capture functional and structural relationships between proteins and could serve as useful input features for downstream classification tasks.
 
 ## Exercise C: Optional Genomic Benchmarks
 
