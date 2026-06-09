@@ -583,8 +583,17 @@ Potenzial Failure of the Agent -> Phred Encoding [2 standards - Phred+33 & Phred
 * structures of complexes containing proteins, DNA, RNA, and small molecules
 * Diffusion-Based Module - Replacing the previous "structure module" that used torsion angles and frames, AF3 uses a diffusion module to predict raw atom coordinates directly. This allows the model to accommodate arbitrary chemical components without specialized bonding rules.
 
+-> mostly done on Googel Colab
 
 ### Exercise A - Protein embeddings with ESM
+
+using public notbook
+
+-> used proteins/domains 
+
+* Ubiquitin (~76 aa)
+* Lysozyme (~129 aa)
+
 
 
 ### Exercise B - STructure Prediction
