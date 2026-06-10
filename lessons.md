@@ -585,22 +585,115 @@ Potenzial Failure of the Agent -> Phred Encoding [2 standards - Phred+33 & Phred
 
 -> mostly done on Googel Colab
 
-### Exercise A - Protein embeddings with ESM
+### Exercise A - Structure prediction with AlphaFold 2
 
-using public notbook
+**Tool:** Google Colab – AlphaFold2.ipynb
+**Protein:** Ubiquitin (76 aa)
+MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG
 
--> used proteins/domains 
+**Confidence:**
+- Mean pLDDT: 95.8 (seed 0), 96.1 (seed 8)
+- Overall very high confidence across models (93.9–96.1 range)
+- Low-confidence regions: C-terminus + loop regions
+- PAE: generally low → high global structural confidence
 
-* Ubiquitin (~76 aa)
-* Lysozyme (~129 aa)
+**Seed robustness:**
+- Very stable predictions across seeds (0–8)
+- Consistent fold, only minor flexibility in terminal/loop regions
+
+**Conclusion:**
+- Reliable for global fold/structure interpretation
+- Not sufficient for precise residue-level mechanistic claims without experimental validation
 
 
+### Exercise B - Protein Embeddings with ESM-2
 
-### Exercise B - STructure Prediction
+**Model:** ESM2 (320-dim embeddings)
+**Dataset:** 45 protein sequences
+**Pooling:** mean over residue embeddings
+
+**Shapes:**
+- Per-residue embeddings: (1024, 320)
+- Per-sequence embeddings: (45, 320)
+- UMAP: (45, 2)
+
+**Results:**
+- Clear clustering by protein family
+- Cosine similarity higher within families than between them
+- UMAP shows biologically meaningful structure:
+    - GPCRs
+    - Kinases
+    - Immunoglobulins
+    - Oxygen-binding proteins
+
+**Validation:**
+- Visual inspection of PCA/UMAP confirmed family-level clustering
+
+**Conclusion:**
+- ESM2 embeddings encode strong structural + functional signal
+- Suitable for downstream classification tasks
 
 
 ### Exercise C - Genomic LM on Genomic Benchmarks
 
+**Dataset:** human_nontata_promoters
+**Train:** 27,097
+**Test:** 9,034
+**Model:** InstaDeepAI/nucleotide-transformer-v2-50m-multi-species
+**Embedding:** mean pooling over token embeddings
+**Task:** logistic regression (linear probe)
+**Seed:** 1908 (reproducible)
+
+**Pilot (1000 train / 500 test)** - Accuracy: 0.64 & F1: 0.62
+
+**Full dataset (27k train / 9k test)** - Accuracy: 0.719 & F1: 0.691
+
+**Interpretation:**
+- Pretrained embeddings encode promoter-relevant signals
+- Linear separability exists but is incomplete
+- Scaling data improves performance significantly
+- Mean pooling is sufficient for a strong baseline
+
+**Limitations:**
+- Logistic regression plateau → remaining nonlinear structure
+
+-> Performance is competitive with CNN baselines (~0.70–0.80 range)
+
 
 ### Suprises - Week 3
 
+#### ExA
+
+**AlphaFold2 (Ubiquitin):**
+- Expected uniformly high confidence across the entire protein.
+- Instead, consistently lower pLDDT values appeared in C-terminal and loop regions, indicating residual uncertainty in flexible or disordered segments despite an otherwise very stable fold.
+
+**Stability across seeds:**
+- The near-identical predictions across multiple random seeds were stronger than expected, reinforcing that AlphaFold2 outputs are highly deterministic for small, well-folded proteins like ubiquitin.
+
+#### ExB
+
+**ESM2 embeddings:**
+- The clarity of clustering was notable. Even with only 45 sequences and simple mean pooling, the embeddings already formed well-separated biologically meaningful families, suggesting strong pretraining signal without any task-specific tuning.
+
+#### ExC
+
+**Genomic benchmark performance:**
+- The biggest surprise was that a simple linear probe (logistic regression) on frozen nucleotide transformer embeddings reached ~0.72 accuracy, closely matching reported CNN-style baselines.
+- This indicates that a large amount of promoter-relevant structure is already encoded in the pretrained representations.
+
+**Scaling effect:**
+- Performance improvement from the small pilot (~0.64) to full dataset (~0.72) was more pronounced than expected
+- suggesting the embedding space benefits significantly from data volume even under a linear classifier.
+
+-> Minor but real issues came from version mismatches and initial class imbalance effects
+
+---
+
+## Week 4 - How agents talk to the world: tools, commands, MCP
+
+### video
+
+### Mitchener et al.,2025: BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology
+
+### Suprises - Week 4
