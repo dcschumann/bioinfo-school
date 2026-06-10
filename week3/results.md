@@ -42,6 +42,9 @@ UMAP embeddings shape: (45, 2)
 
 - Dataset:
 - Model:
+
+**Prompt:** *Using the genomic-benchmarks package, load the human_nontata_promoters dataset. Use InstaDeepAI/nucleotide-transformer-v2-50m-multi-species from HuggingFace to extract per-sequence embeddings using mean pooling over tokens. Set all random seeds to 42 for reproducibility. First test the pipeline on 1000 training sequences and 500 test sequences. Then provide code to scale to the full dataset. Train a logistic regression classifier on the embeddings and report accuracy, F1 score, and a confusion matrix.*
+
 - Embedding or fine-tuning setup:
 - Accuracy:
 - F1:
