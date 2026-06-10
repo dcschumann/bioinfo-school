@@ -60,20 +60,29 @@ UMAP embeddings shape: (45, 2)
 On Training set size of 1000 samples and test set size of 500 samples:
 - Accuracy: 0.6400
 - F1: 0.6194
-- Confusion matrix: [[179  87]     
-                     [ 93 141]]
+- Confusion Matrix:
+
+| Predicted \ True | Class 0 (Up) | Class 1 (Down) |
+|-----------------:|-------------:|---------------:|
+| **Class 0 (Up)** | 179          | 87             |
+| **Class 1 (Down)**| 93          | 141             |
 
 -> confusion matrix shows fairly symmetric errors → model is not collapsing to majority class, is good
 
-Classification Report:
-              precision    recall  f1-score   support
+#### **Classification Report**
 
-           0       0.66      0.67      0.67       266
-           1       0.62      0.60      0.61       234
+| Label | Precision | Recall | F1-score | Support |
+|------:|----------:|-------:|---------:|--------:|
+| 0     | 0.66      | 0.67   | 0.67     | 266     |
+| 1     | 0.62      | 0.60   | 0.61     | 234     |
 
-    accuracy                           0.64       500
-   macro avg       0.64      0.64      0.64       500
-weighted avg       0.64      0.64      0.64       500
+**Accuracy:** 0.64 (n = 500)
+
+| Metric       | Value |
+|-------------|------:|
+| Macro avg   | 0.64  |
+| Weighted avg| 0.64  |
+
 
 **Distribution of Full Dataset**
 Total Train samples: 27097
@@ -90,15 +99,19 @@ On Training set size of 27,097 samples and test set size of 9,034 samples:
 - Accuracy: 0.7192
 - F1: 0.6912
 
-Classification Report (Full):
-              precision    recall  f1-score   support
+#### **Classification Report (Full)**
 
-           0       0.74      0.74      0.74      4915
-           1       0.69      0.69      0.69      4119
+| Label | Precision | Recall | F1-score | Support |
+|------:|----------:|-------:|---------:|--------:|
+| 0     | 0.74      | 0.74   | 0.74     | 4915    |
+| 1     | 0.69      | 0.69   | 0.69     | 4119    |
 
-    accuracy                           0.72      9034
-   macro avg       0.72      0.72      0.72      9034
-weighted avg       0.72      0.72      0.72      9034
+**Accuracy:** 0.72 (n = 9034)
+
+| Metric       | Value |
+|-------------|------:|
+| Macro avg   | 0.72  |
+| Weighted avg| 0.72  |
 
 **Strong signals**
 
@@ -130,14 +143,6 @@ So model is:
     * A simple linear classifier can recover ~0.72 accuracy on this dataset
     * Scaling data improves performance significantly → embeddings are data-efficient but not trivially separable
     * Pretrained genomic representations + linear probe achieve CNN-level performance without task-specific training
-
-**Fine-Tuning of task C**
-
-~ true end-to-end sequence classification problem
-
-**Prompt:** *Implement a reproducible Colab pipeline to fine-tune InstaDeepAI/nucleotide-transformer-v2-50m-multi-species on the human_nontata_promoters dataset from genomic-benchmarks (binary classification). Set all random seeds to 1908 and ensure deterministic behavior. First test on 1,000 train and 500 test samples (seeded shuffle), then scale to full data (27,097 train / 9,034 test). Tokenize with HuggingFace AutoTokenizer (max length 512, padding + truncation). Fine-tune the full model (no frozen layers) using HuggingFace Trainer with lr=2e-5, batch size=8, 3 epochs, weight decay=0.01, epoch evaluation, and best-model loading. Report accuracy, F1, confusion matrix, and classification report using sklearn/evaluate. After subset validation, rerun on full dataset with identical settings. Include all imports, pip installs, and clean modular Colab code.*
-
-
 
 
 ## Surprises
