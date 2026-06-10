@@ -40,18 +40,105 @@ UMAP embeddings shape: (45, 2)
 
 ## Exercise C: Optional Genomic Benchmarks
 
-- Dataset:
-- Model:
+- Dataset: human_nontata_promoters
+    - Training samples: 27,097
+    - Test samples: 9,034
+- Model: InstaDeepAI/nucleotide-transformer-v2-50m-multi-species
+    - Embeddings: mean pooling over tokens
+    - Random seed: 1908
 
-**Prompt:** *Using the genomic-benchmarks package, load the human_nontata_promoters dataset. Use InstaDeepAI/nucleotide-transformer-v2-50m-multi-species from HuggingFace to extract per-sequence embeddings using mean pooling over tokens. Set all random seeds to 42 for reproducibility. First test the pipeline on 1000 training sequences and 500 test sequences. Then provide code to scale to the full dataset. Train a logistic regression classifier on the embeddings and report accuracy, F1 score, and a confusion matrix.*
+**Prompt:** *Using the genomic-benchmarks package, load the human_nontata_promoters dataset. Use InstaDeepAI/nucleotide-transformer-v2-50m-multi-species from HuggingFace to extract per-sequence embeddings using mean pooling over tokens. Set all random seeds to 1908 for reproducibility. First test the pipeline on 1000 training sequences and 500 test sequences. Then provide code to scale to the full dataset. Train a logistic regression classifier on the embeddings and report accuracy, F1 score, and a confusion matrix.*
 
-- Embedding or fine-tuning setup:
-- Accuracy:
-- F1:
-- Confusion matrix:
-- Published CNN baseline you compared against:
-- Interpretation:
+- Embedding or fine-tuning setup: Per-sequence embeddings & Mean pooling over token embeddings
+-> So this is a linear probe on top of pretrained genomic representations, not task-specific learning in the encoder
+
+
+**Reversed Prompt Execution**: Version error corrected & class imbalaced in the first 1000 samples was misleading for the full dataset -> using random sampling of the full dataset for fair comparison.
+
+**Model Performance:**
+On Training set size of 1000 samples and test set size of 500 samples:
+- Accuracy: 0.6400
+- F1: 0.6194
+- Confusion matrix: [[179  87]     
+                     [ 93 141]]
+
+-> confusion matrix shows fairly symmetric errors → model is not collapsing to majority class, is good
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.66      0.67      0.67       266
+           1       0.62      0.60      0.61       234
+
+    accuracy                           0.64       500
+   macro avg       0.64      0.64      0.64       500
+weighted avg       0.64      0.64      0.64       500
+
+**Distribution of Full Dataset**
+Total Train samples: 27097
+Total Test samples: 9034
+Distribution for Train Dataset:
+  Class 0: 14742 samples (54.40%)
+  Class 1: 12355 samples (45.60%)
+Distribution for Test Dataset:
+  Class 0: 4915 samples (54.41%)
+  Class 1: 4119 samples (45.59%)
+
+**Model Performance on Full Dataset**
+On Training set size of 27,097 samples and test set size of 9,034 samples:
+- Accuracy: 0.7192
+- F1: 0.6912
+
+Classification Report (Full):
+              precision    recall  f1-score   support
+
+           0       0.74      0.74      0.74      4915
+           1       0.69      0.69      0.69      4119
+
+    accuracy                           0.72      9034
+   macro avg       0.72      0.72      0.72      9034
+weighted avg       0.72      0.72      0.72      9034
+
+**Strong signals**
+
+*The result ~0.72 accuracy indicates:*
+
+* The nucleotide transformer embeddings encode promoter-relevant regulatory patterns
+* Mean pooling is sufficient to preserve signal (no need for token-level attention pooling for baseline performance)
+* Linear separability exists but is incomplete
+
+**Limitation signals:**
+* Logistic regression plateau suggests nonlinear structure remains unexploited
+* Mean pooling likely loses:
+    * motif positional information
+    * long-range interactions
+    * local promoter architecture (core promoter vs flanking regions)
+
+- Published CNN baseline you compared against: 
+    * frozen language-model embedding pipeline (see above) 
+    * Most CNN baselines in this benchmark family tend to fall roughly in:
+
+* ~0.70–0.80 accuracy (dataset-dependent and tuning-dependent)
+
+So model is:
+
+* Competitive with classical CNN baselines, but not necessarily exceeding well-tuned ones
+
+- **Interpretation:**
+    * Pretrained nucleotide transformers already encode promoter-relevant features
+    * A simple linear classifier can recover ~0.72 accuracy on this dataset
+    * Scaling data improves performance significantly → embeddings are data-efficient but not trivially separable
+    * Pretrained genomic representations + linear probe achieve CNN-level performance without task-specific training
 
 ## Surprises
 
-List at least one model output that was hard to interpret and one validation habit you will reuse.
+Task C was harder than expected. While I expected the model to perform well, I didn't expect the performance to be so close to the published baselines. I also didn't expect the performance to improve so significantly with the increase in dataset size. 
+
+-> a littel for and back with the AI to get the script that was lokkical for the task and also to understand the output files, esp. a version confict on the genomic benchmark 
+
+But also the low confidence regions of Ubiquitin were surprising. I expected the entire protein to be confidently predicted, but the low confidence regions suggest that there are still some regions of the protein that are not well understood. 
+
+-> but the script run smoothly in general, except the error in task C with the class imbalnce and the version conflict on the genomic benchmark
+-> but with the prompt in the end it worked out fine 
+-> overall i am happy with the results
+
