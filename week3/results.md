@@ -38,6 +38,7 @@ UMAP embeddings shape: (45, 2)
 
 **Conclusion:** The ESM2 embeddings capture functional and structural relationships between proteins and could serve as useful input features for downstream classification tasks.
 
+
 ## Exercise C: Optional Genomic Benchmarks
 
 - Dataset: human_nontata_promoters
@@ -49,7 +50,7 @@ UMAP embeddings shape: (45, 2)
 
 **Prompt:** *Using the genomic-benchmarks package, load the human_nontata_promoters dataset. Use InstaDeepAI/nucleotide-transformer-v2-50m-multi-species from HuggingFace to extract per-sequence embeddings using mean pooling over tokens. Set all random seeds to 1908 for reproducibility. First test the pipeline on 1000 training sequences and 500 test sequences. Then provide code to scale to the full dataset. Train a logistic regression classifier on the embeddings and report accuracy, F1 score, and a confusion matrix.*
 
-- Embedding or fine-tuning setup: Per-sequence embeddings & Mean pooling over token embeddings
+- Embedding: Per-sequence embeddings & Mean pooling over token embeddings
 -> So this is a linear probe on top of pretrained genomic representations, not task-specific learning in the encoder
 
 
@@ -129,6 +130,15 @@ So model is:
     * A simple linear classifier can recover ~0.72 accuracy on this dataset
     * Scaling data improves performance significantly → embeddings are data-efficient but not trivially separable
     * Pretrained genomic representations + linear probe achieve CNN-level performance without task-specific training
+
+**Fine-Tuning of task C**
+
+~ true end-to-end sequence classification problem
+
+**Prompt:** *Implement a reproducible Colab pipeline to fine-tune InstaDeepAI/nucleotide-transformer-v2-50m-multi-species on the human_nontata_promoters dataset from genomic-benchmarks (binary classification). Set all random seeds to 1908 and ensure deterministic behavior. First test on 1,000 train and 500 test samples (seeded shuffle), then scale to full data (27,097 train / 9,034 test). Tokenize with HuggingFace AutoTokenizer (max length 512, padding + truncation). Fine-tune the full model (no frozen layers) using HuggingFace Trainer with lr=2e-5, batch size=8, 3 epochs, weight decay=0.01, epoch evaluation, and best-model loading. Report accuracy, F1, confusion matrix, and classification report using sklearn/evaluate. After subset validation, rerun on full dataset with identical settings. Include all imports, pip installs, and clean modular Colab code.*
+
+
+
 
 ## Surprises
 
