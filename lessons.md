@@ -692,8 +692,47 @@ MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG
 
 ## Week 4 - How agents talk to the world: tools, commands, MCP
 
-### video
+### The Model Context Protocol (MCP) - Anthropic (~20 min)
 
-### Mitchener et al.,2025: BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology
+~ standardized way to provide context to AI applications that use Large Language Models (LLMs)
+
+* allowing developers to take data from APIs or internal sources and present it to a model in a format it can actually ingest -> in form of prompts and tools
+
+1. **Tools**: Actions the model can take in the external world
+2. **Resources**: Raw data, such as text files or data for RAG pipelines, that provide context to the model
+3. **Prompts**: Pre-defined prompt templates, often triggered by slash commands, that help users quickly format their context window
+
+-> originated from frustration regarding the need to manually copy and paste data between different applications
+
+- ease of integration with external tools and data sources
+- real world interactions e.g., Claude script 3D scenes in Blender
+
+**Future of MCP**
+- LLM powered desktop
+- agents that can control our software -> registry API
+
+=> **Building an MCP server in 10 minutes**
+
+1. Choose programming language and framework (e.g., Python + MCPFast)
+2. Define tools (start with a single tool) and resources
+3. use AI-assisted coding to implement your server
+4. test your server -> experiment with core components (Tools, reseources, Prompts etc.)
+
+### Mitchener et al.,2025: BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology (~20 min)
+
+- MCP is an interesting idea, but current benchmarks are not sufficient to evaluate agentic systems
+- Need more realistic and comprehensive benchmarks to evaluate agentic systems
+- BixBench is a step in the right direction
+- includes 205 open-answer questions spanning various biological domains such as genomics, transcriptomics, RNA-seq, and phylogenetics
+
+**Agent Frameworks**
+* autonomous environments -> Aviary (provides models with an empty Jupyter notebook and three primary tools: edit_cell, list_workdir, and submit_answer)
+* multi-agent conversations -> Autogen ()
+
+**Evaluation**
+* Poor Overall Accuracy: Evaluation of frontier models like Claude 3.5 Sonnet and GPT-4o revealed significant limitations. The best performance in the primary open-answer format was only 21% accuracy (achieved by Claude 3.5 Sonnet)
+* While accuracy improved in a multiple-choice (MCQ) format, performance remained marginally better than random guessing when models were given the option to refuse answering ("Insufficient information")
+* Performance on the benchmark often failed to surpass a baseline of "pure recall," where models were asked the questions without access to any analysis materials
+
 
 ### Suprises - Week 4
