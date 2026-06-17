@@ -846,15 +846,23 @@ awk -F',' 'NR==1 || /speciesA|speciesB/' traits.csv | cut -d',' -f1,3,4,5,6
 | MCP/tool | Structured agent context | Production pipelines, chaining |
 
 
-
 #### Exercise D — MCP exploration
 
 **What should be a skill, and what should be an MCP tool?**
 Skills = static reference information
 MCP = real-time, "live" data
 
--> See Berglund video for more details
+A **skill** is appropriate when the information is static and lives on the local file system — for example, a set of instructions telling the agent which Python version to use, where data files live, or which validation checks to run before committing. Skills are essentially structured markdown that the agent reads as context. They are cheap to create, easy to version-control, and do not require a network connection.
 
+An **MCP tool** is appropriate when the task requires real-time or live data from an external source — for example, querying UniProt for current protein annotations, fetching specimen records from AntWeb, or pulling the latest genome assembly from Ensembl. MCP tools are also better suited for actions that have side effects in the real world, such as creating a GitHub issue or writing to a database.
+The practical rule: if you keep telling the agent the same static instruction, turn it into a skill. If the agent needs to reach out to a live system to get or send data, that is an MCP tool.
 
 
 ### Suprises - Week 4
+
+- much overlap there is between skills and MCP tools (only data updted diffrently)
+- Coding agent like Claude can even write its own plugins. 
+- Anything the agent needs to know is a skill; anything it needs to fetch or act on is an MCP tool
+- Writing down validation rules explicitly -> need to be add everytime 
+- command mode is the most dangerous for bioinformatics: it produces no artifact, has no error handling, and is easy to get silently wrong -> Never be the end point -> Always use Code mode or MCP/tool mode
+- When you ask agent to use a tool, it may also ask you for more information
