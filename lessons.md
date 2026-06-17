@@ -764,6 +764,10 @@ While there is functional overlap, the two serve different primary purposes:
 * While accuracy improved in a multiple-choice (MCQ) format, performance remained marginally better than random guessing when models were given the option to refuse answering ("Insufficient information")
 * Performance on the benchmark often failed to surpass a baseline of "pure recall," where models were asked the questions without access to any analysis materials
 
+#### Exercise A — Reproducibility refresh
+
+-> using Uniprot (week2)
+
 #### Exercise C — Three ways agents use tools
 
 **Code mode:**
@@ -775,30 +779,75 @@ The agent runs shell commands or API calls directly and reports the answer.
 **MCP/tool mode:**
 The agent calls a typed tool such as an MCP server or function wrapper.
 
-**Example:**
+**Example 1:**
 **Given a list of UniProt IDs, return protein length and organism.**
 
 * Code mode - agent writes a Python script that fetches data from UniProt REST API and returns protein length and organism
-For each mode, answer:
 
-- What artifact do you get?
-- What can silently go wrong?
-- Would you use this mode for one-off exploration, a reusable analysis, or a production workflow?
+*What artifact do you get?* A reusable .py script that can be run on any ID list, version-controlled, and shared with others.
+*What can silently go wrong?* Wrong JSON field extraction (as happened in week 2 — domains and notes mixed up). The script runs without errors but returns structurally wrong data. Only caught by validating against known reference values.
+*When to use?* Reusable analysis — any task you will run more than once or share with someone else.
+
 
 * Command mode - agent runs shell commands directly to fetch data from UniProt REST API and return protein length and organism
-For each mode, answer:
 
-- What artifact do you get?
-- What can silently go wrong?
-- Would you use this mode for one-off exploration, a reusable analysis, or a production workflow?
+```bash
+curl "https://rest.uniprot.org/uniprotkb/P68871.json" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+print(d['sequence']['length'], d['organism']['scientificName'])
+"
+```
 
-* MCP/tool mode - agent calls a typed tool that fetches data from UniProt REST API and returns protein length and organism
-For each mode, answer:
+*What artifact do you get?* Just the printed answer in the terminal — nothing saved, nothing reusable.
+*What can silently go wrong?* No error handling — if the ID doesn't exist or the API is down, it crashes ungracefully. Also easy to misread the JSON path and get the wrong field.
+*When to use?* One-off exploration — you just want a quick answer and don't need to save or repeat it.
 
-- What artifact do you get?
-- What can silently go wrong?
-- Would you use this mode for one-off exploration, a reusable analysis, or a production workflow?
 
+* MCP/tool mode - agent calls a typed tool (e.g. a UniProt MCP server or function wrapper) that handles the API call internally and returns structured data.
+
+*What artifact do you get?* Structured output directly in the agent's context — no script file, no manual parsing. The tool handles authentication, rate limiting, and JSON extraction.
+*What can silently go wrong?* The tool is a black box — if it returns wrong data you have no script to inspect. Also depends on the MCP server being available and correctly implemented.
+*When to use?* Production workflow or interactive exploration where you want the agent to chain multiple tools together — e.g. fetch UniProt data, then immediately filter by organism, then plot.
+
+
+**Example 2:**
+**Task:** Given a list of specimen IDs, return morphological trait measurements (HW, HL, EL, SL) from a trait database or spreadsheet.
+
+* Code mode - the agent writes a Python script that reads a CSV of specimen IDs, joins them against the morphological trait table, and outputs a filtered TSV.
+
+*What artifact do you get?* A reusable .py script that can be run on any specimen list and integrated into the broader analysis pipeline.
+*What can silently go wrong?* Column name mismatches — e.g. HW vs hw vs Head_Width — cause silent NaN values instead of errors. Or the wrong measurement unit (mm vs µm) gets carried through the entire pipeline.
+*When to use?* Reusable analysis — any time you subset specimens for a specific analysis.
+
+
+* Command mode - the agent runs a direct shell command to filter the trait table
+
+```bash
+awk -F',' 'NR==1 || /speciesA|speciesB/' traits.csv | cut -d',' -f1,3,4,5,6
+```
+
+*What artifact do you get?* Filtered rows printed to terminal, nothing saved.
+*What can silently go wrong?* Column indices hardcoded — if the CSV column order changes, you silently get the wrong traits with no error.
+*When to use?* Quick one-off lookup when you just want to eyeball a few values.
+
+
+* MCP/tool mode - the agent calls an AntWeb or GBIF MCP tool that returns specimen trait data directly from the database.
+
+*What artifact do you get?* Structured trait data in the agent context, ready to pass to the next analysis step.
+*What can silently go wrong?* Database may return the wrong taxonomic match if species names are not resolved — synonyms and mismatches are common in ant taxonomy. No visibility into which name resolution was used.
+*When to use?* Explorative queries where you want to quickly pull reference data without maintaining a local copy.
+
+
+| Mode | Artifact | Best for |
+|------|----------|----------|
+| Code | Reusable script | Repeated analyses, sharing |
+| Command | Terminal output only | Quick one-off lookups |
+| MCP/tool | Structured agent context | Production pipelines, chaining |
+
+
+
+#### Exercise D — MCP exploration
 
 **What should be a skill, and what should be an MCP tool?**
 Skills = static reference information
