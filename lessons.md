@@ -692,6 +692,36 @@ MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG
 
 ## Week 4 - How agents talk to the world: tools, commands, MCP
 
+### Agent Skills or MCP in the era of Claude Code? - Tim Berglund (~10 min)
+
+**The Role and Purpose of MCP**
+
+The Model Context Protocol serves as standardized infrastructure that connects AI agents to internal tools and data. It addresses two primary limitations of LLMs:
+
+- Knowledge Gap: LLMs don't natively know a company's private data, such as support tickets or Google Docs.
+- Inability to Act: LLMs can only produce text; MCP allows them to use "tools" to take actions and cause effects in the real world.
+- Standardization: MCP provides a "pluggable" interface, meaning an agent can immediately learn how to interact with new resources just by being pointed at an MCP serve
+
+**Recent Evolution of MCP**
+
+- Shift to Tools API: Developers have largely moved away from the specific "Resources" API, finding that the "Tools" API is a more effective way to query data through method-like calls with parameters.
+- Improved Networking: The addition of streamable HTTP makes MCP easier and cleaner to deploy in cloud environments compared to the original server-sent events.
+- Authentication: The implementation of OAuth 2.1 allows for a better user experience (like standard browser pop-ups) when a local agent needs to access services like GitHub
+
+**Understanding "Agent Skills"**
+
+Skills are a newer development, primarily functioning as plugins for local environments like Claude Desktop or Claude Code.
+
+- Format: A skill is essentially a markdown file containing specialized instructions, procedures, and conditions for the model.
+- Components: They can include directories of static reference data and executable scripts (Bash or Python) to perform specific tasks, such as editing an Excel file
+
+**MCP vs. Skills: Key Differences**
+
+While there is functional overlap, the two serve different primary purposes:
+
+- Data Type: Skills focus on static reference information, whereas MCP is designed for real-time, "live" data like Kafka topics or active support tickets.
+- Environment: Skills are rooted in the local file system of a user's laptop. MCP is better suited for networked resources and cloud-based authentication
+
 ### The Model Context Protocol (MCP) - Anthropic (~20 min)
 
 ~ standardized way to provide context to AI applications that use Large Language Models (LLMs)
@@ -718,7 +748,7 @@ MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG
 3. use AI-assisted coding to implement your server
 4. test your server -> experiment with core components (Tools, reseources, Prompts etc.)
 
-### Mitchener et al.,2025: BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology (~20 min)
+### Mitchener et al.,2025: BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology
 
 - MCP is an interesting idea, but current benchmarks are not sufficient to evaluate agentic systems
 - Need more realistic and comprehensive benchmarks to evaluate agentic systems
@@ -733,6 +763,49 @@ MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG
 * Poor Overall Accuracy: Evaluation of frontier models like Claude 3.5 Sonnet and GPT-4o revealed significant limitations. The best performance in the primary open-answer format was only 21% accuracy (achieved by Claude 3.5 Sonnet)
 * While accuracy improved in a multiple-choice (MCQ) format, performance remained marginally better than random guessing when models were given the option to refuse answering ("Insufficient information")
 * Performance on the benchmark often failed to surpass a baseline of "pure recall," where models were asked the questions without access to any analysis materials
+
+#### Exercise C — Three ways agents use tools
+
+**Code mode:**
+The agent writes a reusable script or notebook.
+
+**Command mode:**
+The agent runs shell commands or API calls directly and reports the answer.
+
+**MCP/tool mode:**
+The agent calls a typed tool such as an MCP server or function wrapper.
+
+**Example:**
+**Given a list of UniProt IDs, return protein length and organism.**
+
+* Code mode - agent writes a Python script that fetches data from UniProt REST API and returns protein length and organism
+For each mode, answer:
+
+- What artifact do you get?
+- What can silently go wrong?
+- Would you use this mode for one-off exploration, a reusable analysis, or a production workflow?
+
+* Command mode - agent runs shell commands directly to fetch data from UniProt REST API and return protein length and organism
+For each mode, answer:
+
+- What artifact do you get?
+- What can silently go wrong?
+- Would you use this mode for one-off exploration, a reusable analysis, or a production workflow?
+
+* MCP/tool mode - agent calls a typed tool that fetches data from UniProt REST API and returns protein length and organism
+For each mode, answer:
+
+- What artifact do you get?
+- What can silently go wrong?
+- Would you use this mode for one-off exploration, a reusable analysis, or a production workflow?
+
+
+**What should be a skill, and what should be an MCP tool?**
+Skills = static reference information
+MCP = real-time, "live" data
+
+-> See Berglund video for more details
+
 
 
 ### Suprises - Week 4
